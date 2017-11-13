@@ -1,3 +1,4 @@
+// import libraries
 const path = require('path');
 const express = require('express');
 const compression = require('compression');
@@ -17,7 +18,7 @@ const dbURL = process.env.MONGODB_URI || 'mongodb://localhost/DomoMaker';
 
 mongoose.connect(dbURL, (err) => {
   if (err) {
-    console.log('could not connect to database');
+    console.log('Could not connect to database');
     throw err;
   }
 });
@@ -35,13 +36,14 @@ if (process.env.REDISCLOUD_URL) {
 }
 
 const router = require('./router.js');
+
 const app = express();
-app.use('/assets', express.static(path.resolve(`${__dirname}/../hosted`)));
+app.use('/assets', express.static(path.resolve(`${__dirname}/../hosted/`)));
 app.use(favicon(`${__dirname}/../hosted/img/favicon.png`));
 app.disable('x-powered-by');
 app.use(compression());
 app.use(bodyParser.urlencoded({
-  extened: true,
+  extended: true,
 }));
 app.use(session({
   key: 'sessionid',
@@ -51,7 +53,7 @@ app.use(session({
     pass: redisPASS,
   }),
   secret: 'Domo Arigato',
-  resave: 'true',
+  resave: true,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
@@ -61,10 +63,11 @@ app.engine('handlebars', expressHandlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/../views`);
 app.use(cookieParser());
-
 app.use(csrf());
 app.use((err, req, res, next) => {
-  if (err.code !== 'EBADCSRFTOKEN') return next(err);
+  if (err.code !== 'EBADCSRFTOKEN') {
+    return next(err);
+  }
 
   console.log('Missing CSRF token');
   return false;
@@ -76,5 +79,6 @@ app.listen(port, (err) => {
   if (err) {
     throw err;
   }
-  console.log(`Listening on port ${port}`);
+
+  console.log(`listening on port ${port}`);
 });
