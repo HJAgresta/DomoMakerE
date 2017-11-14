@@ -13,6 +13,7 @@ var handleDomo = function handleDomo(e) {
   sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
     loadDomosFromServer();
   });
+
   return false;
 };
 
@@ -34,7 +35,7 @@ var DomoForm = function DomoForm(props) {
     React.createElement("input", { id: "domoName", type: "text", name: "name", placeholder: "Domo Name" }),
     React.createElement(
       "label",
-      { htmlFor: "age" },
+      { htmlForm: "age" },
       "Age: "
     ),
     React.createElement("input", { id: "domoAge", type: "text", name: "age", placeholder: "Domo Age" }),
@@ -59,7 +60,7 @@ var DomoList = function DomoList(props) {
   var domoNodes = props.domos.map(function (domo) {
     return React.createElement(
       "div",
-      { key: domo._id, className: "domo" },
+      { "let": domo._id, className: "domo" },
       React.createElement("img", { src: "/assets/img/domoface.jpeg", alt: "domo face", className: "domoFace" }),
       React.createElement(
         "h3",
@@ -90,7 +91,7 @@ var loadDomosFromServer = function loadDomosFromServer() {
 };
 
 var setup = function setup(csrf) {
-  ReactDOM.render(React.createElement(DomoForm, { csrf: csrf }), document.querySelector("#makeDomos"));
+  ReactDOM.render(React.createElement(DomoForm, { csrf: csrf }), document.querySelector("#makeDomo"));
 
   ReactDOM.render(React.createElement(DomoList, { domos: [] }), document.querySelector("#domos"));
 
@@ -105,16 +106,18 @@ var getToken = function getToken() {
 
 $(document).ready(function () {
   getToken();
+
+  console.log("document ready");
 });
 "use strict";
 
 var handleError = function handleError(message) {
   $("#errorMessage").text(message);
-  $("#domoMessage").animate({ width: "toggle" }, 350);
+  $("#domoMessage").animate({ width: 'toggle' }, 350);
 };
 
 var redirect = function redirect(response) {
-  $("#domoMessage").animate({ width: "hide" }, 350);
+  $("#domoMessage").animate({ width: 'hide' }, 350);
   window.location = response.redirect;
 };
 
@@ -127,7 +130,7 @@ var sendAjax = function sendAjax(type, action, data, success) {
     dataType: "json",
     success: success,
     error: function error(xhr, status, _error) {
-      var messageObj = JSON.parse(xhr.responseText);
+      var messageOb = JSON.parse(xhr.responseText);
       handleError(messageObj.error);
     }
   });
