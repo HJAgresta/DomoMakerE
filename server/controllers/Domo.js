@@ -28,13 +28,13 @@ const getDomos = (request, response) => {
 };
 
 const makeDomo = (req, res) => {
-  if (!req.body.name || !req.body.age) {
-    return res.status(400).json({ error: 'RAWR! Both name and age are required' });
+  if (!req.body.name || !req.body.age || !req.body.powerLevel) {
+    return res.status(400).json({ error: 'RAWR! All feilds are required' });
   }
-
   const domoData = {
     name: req.body.name,
     age: req.body.age,
+    powerLevel: req.body.powerLevel,
     owner: req.session.account._id,
   };
 
@@ -56,6 +56,18 @@ const makeDomo = (req, res) => {
   return domoPromise;
 };
 
+const scouter = (req, res) => {
+  Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ error: 'An error occured' });
+    }
+
+    return res.render('scouter', { csrfToken: req.csrfToken(), domos: docs });
+  });
+};
+
 module.exports.makerPage = makerPage;
 module.exports.getDomos = getDomos;
+module.exports.scouter = scouter;
 module.exports.make = makeDomo;
