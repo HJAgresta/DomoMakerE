@@ -33,11 +33,18 @@ const levelUp = (request, response) => {
   const req = request;
   const res = response;
 
-  return Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
+  const fighters = Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
+      
+      thisFighter = fighters.find(req.name);
+      
+      thisFighter.level = thisFighter.level + 1;
+      thisFighter.health = thisFighter.health + Math.floor(Math.random() * (10));
+      thisFighter.attack = thisFighter.attack + Math.floor(Math.random() * (5));
+      thisFighter.defense = thisFighter.defense + Math.floor(Math.random() * (5));
 
     return res.json({ fighters: docs });
   });
@@ -51,8 +58,8 @@ const makeFighter = (req, res) => {
     name: req.body.name,
     level: 0,
     health: Math.floor(Math.random() * (10))+15,
-    attack: Math.floor(Math.random() * (10))+5,
-    defense: Math.floor(Math.random() * (10))+5,
+    attack: Math.floor(Math.random() * (5))+5,
+    defense: Math.floor(Math.random() * (5))+5,
     experience: 0,
     owner: req.session.account._id,
   };
