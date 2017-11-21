@@ -3,8 +3,8 @@ const handlefighter = (e) => {
   
   $("#fighterMessage").animate({width:'hide'}, 350);
   
-  if($("#fighterName").val() == '' || $("#fighterAge").val() == '' || $("#powerLevel").val() == '') {
-    handleError("RAWR! All fields are required");
+  if($("#fighterName").val() == '') {
+    handleError("All fields are required");
     return false;
   }
   
@@ -46,6 +46,11 @@ const FighterList = function(props) {
       <div let={fighter._id} className="fighter">
         <img src="/assets/img/fighterface.jpeg" alt="fighter face" className="fighterFace" />
         <h3 className="fighterName">Name: {fighter.name}</h3>
+        <h3 className="fighterName">Level: {fighter.level}</h3>
+        <h3 className="fighterName">Health: {fighter.health}</h3>
+        <h3 className="fighterName">Attack: {fighter.attack}</h3>
+        <h3 className="fighterName">Defense: {fighter.defense}</h3>
+        <h3 className="fighterName">XP: {fighter.experience}</h3>
       </div>
     );
   });

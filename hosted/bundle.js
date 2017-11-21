@@ -5,8 +5,8 @@ const handleFighter = function handleFighter(e) {
 
   $('#fighterMessage').animate({ width: 'hide' }, 350);
 
-  if ($('#fighterName').val() == '' || $('#fighterAge').val() == '' || $('#powerLevel').val() == '') {
-    handleError('RAWR! All fields are required');
+  if ($('#fighterName').val() == '') {
+    handleError('Name your fighter');
     return false;
   }
 
@@ -60,6 +60,41 @@ const FighterList = function FighterList(props) {
         { className: 'fighterName' },
         'Name: ',
         fighter.name
+      ),
+      
+      React.createElement(
+        'h3',
+        { className: 'fighterLevel' },
+        'Level: ',
+        fighter.level
+      ),
+      
+      React.createElement(
+        'h3',
+        { className: 'fighterHealth' },
+        'Health: ',
+        fighter.health
+      ),
+      
+      React.createElement(
+        'h3',
+        { className: 'fighterAttack' },
+        'Attack: ',
+        fighter.attack
+      ),
+      
+      React.createElement(
+        'h3',
+        { className: 'fighterDefense' },
+        'Defense: ',
+        fighter.defense
+      ),
+      
+      React.createElement(
+        'h3',
+        { className: 'fighterExperience' },
+        'XP: ',
+        fighter.experience
       ),
     ));
 

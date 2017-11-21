@@ -2,6 +2,8 @@ const models = require('../models');
 
 const Fighter = models.Fighter;
 
+
+
 const makerPage = (req, res) => {
   Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
@@ -27,14 +29,31 @@ const getFighters = (request, response) => {
   });
 };
 
+const levelUp = (request, response) => {
+  const req = request;
+  const res = response;
+
+  return Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+
+    return res.json({ fighters: docs });
+  });
+};
+
 const makeFighter = (req, res) => {
-  if (!req.body.name || !req.body.age || !req.body.powerLevel) {
-    return res.status(400).json({ error: 'RAWR! All feilds are required' });
+  if (!req.body.name) {
+    return res.status(400).json({ error: 'You must name your fighter' });
   }
   const fighterData = {
     name: req.body.name,
-    age: req.body.age,
-    powerLevel: req.body.powerLevel,
+    level: 0,
+    health: Math.floor(Math.random() * (10))+15,
+    attack: Math.floor(Math.random() * (10))+5,
+    defense: Math.floor(Math.random() * (10))+5,
+    experience: 0,
     owner: req.session.account._id,
   };
 
@@ -55,6 +74,7 @@ const makeFighter = (req, res) => {
 
   return fighterPromise;
 };
+
 
 const scouter = (req, res) => {
   Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
