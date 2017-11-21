@@ -29,7 +29,7 @@ const getFighters = (request, response) => {
   });
 };
 
-const levelUp = (request, response) => {
+/*const levelUp = (request, response) => {
   const req = request;
   const res = response;
 
@@ -39,7 +39,7 @@ const levelUp = (request, response) => {
       return res.status(400).json({ error: 'An error occured' });
     }
       
-      thisFighter = fighters.find(req.name);
+      const thisFighter = fighters.find(req.name);
       
       thisFighter.level = thisFighter.level + 1;
       thisFighter.health = thisFighter.health + Math.floor(Math.random() * (10));
@@ -49,7 +49,7 @@ const levelUp = (request, response) => {
     return res.json({ fighters: docs });
   });
 };
-
+*/
 const makeFighter = (req, res) => {
   if (!req.body.name) {
     return res.status(400).json({ error: 'You must name your fighter' });
@@ -98,3 +98,4 @@ module.exports.makerPage = makerPage;
 module.exports.getFighters = getFighters;
 module.exports.scouter = scouter;
 module.exports.make = makeFighter;
+//module.exports.make = levelUp;
