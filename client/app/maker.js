@@ -1,89 +1,83 @@
-const handleDomo = (e) => {
+const handlefighter = (e) => {
   e.preventDefault();
   
-  $("#domoMessage").animate({width:'hide'}, 350);
+  $("#fighterMessage").animate({width:'hide'}, 350);
   
-  if($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#powerLevel").val() == '') {
+  if($("#fighterName").val() == '' || $("#fighterAge").val() == '' || $("#powerLevel").val() == '') {
     handleError("RAWR! All fields are required");
     return false;
   }
   
-  sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function() {
-    loadDomosFromServer();
+  sendAjax('POST', $("#fighterForm").attr("action"), $("#fighterForm").serialize(), function() {
+    loadFightersFromServer();
   });
   
   return false;
 };
 
-const DomoForm = (props) => {
+const FighterForm = (props) => {
   return (
-    <form id="domoForm"
-          onSubmit={handleDomo}
-          name="domoForm"
+    <form id="fighterForm"
+          onSubmit={handleFighter}
+          name="fighterForm"
           action="/maker"
           method="POST"
-          className="domoForm"
+          className="fighterForm"
       >
       <label htmlFor="name">Name: </label>
-      <input id="domoName" type="text" name="name" placeholder="Domo Name" />
-      <label htmlForm="age">Age: </label>
-      <input id="domoAge" type="number" name="age" placeholder="Domo Age" />
-      <label htmlForm="powerLevel">Power Level: </label>
-      <input id="domoPowerLevel" type="number" name="powerLevel" placeholder="Domo Power Level" />
+      <input id="fighterName" type="text" name="name" placeholder="Fighter Name" />
       <input type="hidden" name="_csrf" value={props.csrf}/>
-      <input className="makeDomoSubmit" type="submit" value="Make Domo"/>
+      <input className="makeFighterSubmit" type="submit" value="Make Fighter"/>
     </form>
   );
 };
 
-const DomoList = function(props) {
-  if(props.domos.length === 0){
+const FighterList = function(props) {
+  if(props.fighters.length === 0){
     return (
-      <div className="domoList">
-        <h3 className="emptyDomo">No Domos yet</h3>
+      <div className="fighterList">
+        <h3 className="emptyFighter">No Fighters yet</h3>
       </div>
     );
   }
   
-  const domoNodes = props.domos.map(function(domo) {
+  const fighterNodes = props.fighters.map(function(fighter) {
     return (
-      <div let={domo._id} className="domo">
-        <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-        <h3 className="domoName">Name: {domo.name}</h3>
-        <h3 className="domoAge">Age: {domo.age}</h3>
-        <h3 className="domoPowerLevel">Power Level: {domo.powerLevel}</h3>
+      <div let={fighter._id} className="fighter">
+        <img src="/assets/img/fighterface.jpeg" alt="fighter face" className="fighterFace" />
+        <h3 className="fighterName">Name: {fighter.name}</h3>
       </div>
     );
   });
   
   return (
-    <div className="domoList">
-      {domoNodes}
+    <div className="fighterList">
+      {fighterNodes}
     </div>
   );
 };
 
-const loadDomosFromServer = () => {
-  sendAjax('GET', '/getDomos', null, (data) => {
+const loadFightersFromServer = () => {
+  sendAjax('GET', '/getFighters', null, (data) => {
     ReactDOM.render(
-      <DomoList domos={data.domos} />,
-      document.querySelector("#domos")
+      <FighterList fighters={data.fighters} />,
+      document.querySelector("#fighters")
     );
   });
 };
 
 const setup = function(csrf) {
   ReactDOM.render(
-    <DomoForm csrf={csrf} />,
-    document.querySelector("#makeDomo")
+    <FighterForm csrf={csrf} />,
+    document.querySelector("#makeFighter")
   );
   
   ReactDOM.render(
-    <DomoList domos={[]} />,
-    document.querySelector("#domos")
+    <FighterList fighters={[]} />,
+    document.querySelector("#fighters")
   );
   
-  loadDomosFromServer();
+  loadFightersFromServer();
 };
 
 const getToken = () => {

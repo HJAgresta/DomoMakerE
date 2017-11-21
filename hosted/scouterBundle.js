@@ -1,107 +1,107 @@
 
 
-var StrongDomoList = function DomoList(props) {
-  if (props.domos.length === 0) {
+var StrongFighterList = function FighterList(props) {
+  if (props.fighters.length === 0) {
     return React.createElement(
       'div',
-      { className: 'domoList' },
+      { className: 'fighterList' },
       React.createElement(
         'h3',
-        { className: 'emptyDomo' },
-        'No Domos yet'
+        { className: 'emptyFighter' },
+        'No Fighters yet'
       )
     );
   }
 
     
- const domoNodes= props.domos.map(function(domo){
-      if(domo.powerLevel>9000){
+ const fighterNodes= props.fighters.map(function(fighter){
+      if(fighter.powerLevel>9000){
         return React.createElement(
       "div",
-      { "let": domo._id, className: "domo" },
-      React.createElement("img", { src: "/assets/img/domoface.jpeg", alt: "domo face", className: "domoFace" }),
+      { "let": fighter._id, className: "fighter" },
+      React.createElement("img", { src: "/assets/img/fighterface.jpeg", alt: "fighter face", className: "fighterFace" }),
       React.createElement(
         "h3",
-        { className: "domoName" },
+        { className: "fighterName" },
         "Name: ",
-        domo.name
+        fighter.name
       ),
       React.createElement(
         "h3",
-        { className: "domoAge" },
+        { className: "fighterAge" },
         "Age: ",
-        domo.age
+        fighter.age
       ),
       React.createElement(
         "h3",
-        { className: "domoPowerLevel" },
+        { className: "fighterPowerLevel" },
         "Power Level: ",
-        domo.powerLevel
+        fighter.powerLevel
       )
     );
   }});
 
   return React.createElement(
     'div',
-    { className: 'domoList' },
-    domoNodes
+    { className: 'fighterList' },
+    fighterNodes
   );
 };
 
 
-var WeakDomoList = function DomoList(props) {
-  if (props.domos.length === 0) {
+var WeakFighterList = function FighterList(props) {
+  if (props.fighters.length === 0) {
     return React.createElement(
       'div',
-      { className: 'domoList' },
+      { className: 'fighterList' },
       React.createElement(
         'h3',
-        { className: 'emptyDomo' },
-        'No Domos yet'
+        { className: 'emptyFighter' },
+        'No Fighters yet'
       )
     );
   }
 
     
- const domoNodes= props.domos.map(function(domo){
-      if(domo.powerLevel<=9000){
+ const fighterNodes= props.fighters.map(function(fighter){
+      if(fighter.powerLevel<=9000){
         return React.createElement(
       "div",
-      { "let": domo._id, className: "domo" },
-      React.createElement("img", { src: "/assets/img/domoface.jpeg", alt: "domo face", className: "domoFace" }),
+      { "let": fighter._id, className: "fighter" },
+      React.createElement("img", { src: "/assets/img/fighterface.jpeg", alt: "fighter face", className: "fighterFace" }),
       React.createElement(
         "h3",
-        { className: "domoName" },
+        { className: "fighterName" },
         "Name: ",
-        domo.name
+        fighter.name
       ),
       React.createElement(
         "h3",
-        { className: "domoAge" },
+        { className: "fighterAge" },
         "Age: ",
-        domo.age
+        fighter.age
       ),
       React.createElement(
         "h3",
-        { className: "domoPowerLevel" },
+        { className: "fighterPowerLevel" },
         "Power Level: ",
-        domo.powerLevel
+        fighter.powerLevel
       )
     );
   }});
 
   return React.createElement(
     'div',
-    { className: 'domoList' },
-    domoNodes
+    { className: 'fighterList' },
+    fighterNodes
   );
 };
 
 const setup = function setup(csrf) {
-  sendAjax('GET', '/getDomos', null, (data) => {
-    ReactDOM.render(React.createElement(StrongDomoList, { domos: data.domos }), document.querySelector('#strongdomos'));
+  sendAjax('GET', '/getFighters', null, (data) => {
+    ReactDOM.render(React.createElement(StrongFighterList, { fighters: data.fighters }), document.querySelector('#strongfighters'));
       
-    ReactDOM.render(React.createElement(WeakDomoList, { domos: data.domos }), document.querySelector('#weakdomos'));
+    ReactDOM.render(React.createElement(WeakFighterList, { fighters: data.fighters }), document.querySelector('#weakfighters'));
   });
 };
 
@@ -120,11 +120,11 @@ $(document).ready(() => {
 
 const handleError = function handleError(message) {
   $('#errorMessage').text(message);
-  $('#domoMessage').animate({ width: 'toggle' }, 350);
+  $('#fighterMessage').animate({ width: 'toggle' }, 350);
 };
 
 const redirect = function redirect(response) {
-  $('#domoMessage').animate({ width: 'hide' }, 350);
+  $('#fighterMessage').animate({ width: 'hide' }, 350);
   window.location = response.redirect;
 };
 

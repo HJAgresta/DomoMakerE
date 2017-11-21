@@ -1,113 +1,89 @@
 
 
-const handleDomo = function handleDomo(e) {
+const handleFighter = function handleFighter(e) {
   e.preventDefault();
 
-  $('#domoMessage').animate({ width: 'hide' }, 350);
+  $('#fighterMessage').animate({ width: 'hide' }, 350);
 
-  if ($('#domoName').val() == '' || $('#domoAge').val() == '' || $('#powerLevel').val() == '') {
+  if ($('#fighterName').val() == '' || $('#fighterAge').val() == '' || $('#powerLevel').val() == '') {
     handleError('RAWR! All fields are required');
     return false;
   }
 
-  sendAjax('POST', $('#domoForm').attr('action'), $('#domoForm').serialize(), () => {
-    loadDomosFromServer();
+  sendAjax('POST', $('#fighterForm').attr('action'), $('#fighterForm').serialize(), () => {
+    loadFightersFromServer();
   });
 
   return false;
 };
 
-const DomoForm = function DomoForm(props) {
+const FighterForm = function FighterForm(props) {
   return React.createElement(
     'form',
-    { id: 'domoForm',
-      onSubmit: handleDomo,
-      name: 'domoForm',
+    { id: 'fighterForm',
+      onSubmit: handleFighter,
+      name: 'fighterForm',
       action: '/maker',
       method: 'POST',
-      className: 'domoForm',
+      className: 'fighterForm',
     },
     React.createElement(
       'label',
       { htmlFor: 'name' },
       'Name: '
     ),
-    React.createElement('input', { id: 'domoName', type: 'text', name: 'name', placeholder: 'Domo Name' }),
-    React.createElement(
-      'label',
-      { htmlForm: 'age' },
-      'Age: '
-    ),
-    React.createElement('input', { id: 'domoAge', type: 'number', name: 'age', placeholder: 'Domo Age' }),
-    React.createElement(
-      'label',
-      { htmlForm: 'powerLevel' },
-      'Power Level: '
-    ),
-    React.createElement('input', { id: 'domoPowerLevel', type: 'number', name: 'powerLevel', placeholder: 'Domo Power Level' }),
+    React.createElement('input', { id: 'fighterName', type: 'text', name: 'name', placeholder: 'Fighter Name' }),
     React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
-    React.createElement('input', { className: 'makeDomoSubmit', type: 'submit', value: 'Make Domo' })
+    React.createElement('input', { className: 'makeFighterSubmit', type: 'submit', value: 'Make Fighter' })
   );
 };
 
-const DomoList = function DomoList(props) {
-  if (props.domos.length === 0) {
+const FighterList = function FighterList(props) {
+  if (props.fighters.length === 0) {
     return React.createElement(
       'div',
-      { className: 'domoList' },
+      { className: 'fighterList' },
       React.createElement(
         'h3',
-        { className: 'emptyDomo' },
-        'No Domos yet'
+        { className: 'emptyFighter' },
+        'No Fighters yet'
       )
     );
   }
 
-  const domoNodes = props.domos.map((domo) => React.createElement(
+  const fighterNodes = props.fighters.map((fighter) => React.createElement(
       'div',
-      { let: domo._id, className: 'domo' },
-      React.createElement('img', { src: '/assets/img/domoface.jpeg', alt: 'domo face', className: 'domoFace' }),
+      { let: fighter._id, className: 'fighter' },
+      React.createElement('img', { src: '/assets/img/fighterface.jpeg', alt: 'fighter face', className: 'fighterFace' }),
       React.createElement(
         'h3',
-        { className: 'domoName' },
+        { className: 'fighterName' },
         'Name: ',
-        domo.name
+        fighter.name
       ),
-      React.createElement(
-        'h3',
-        { className: 'domoAge' },
-        'Age: ',
-        domo.age
-      ),
-      React.createElement(
-        'h3',
-        { className: 'domoPowerLevel' },
-        'Power Level: ',
-        domo.powerLevel
-      )
     ));
 
   return React.createElement(
     'div',
-    { className: 'domoList' },
-    domoNodes
+    { className: 'fighterList' },
+    fighterNodes
   );
 };
 
-var loadDomosFromServer = function loadDomosFromServer() {
-  sendAjax('GET', '/getDomos', null, (data) => {
-    ReactDOM.render(React.createElement(DomoList, { domos: data.domos }), document.querySelector('#domos'));
+var loadFightersFromServer = function loadFightersFromServer() {
+  sendAjax('GET', '/getFighters', null, (data) => {
+    ReactDOM.render(React.createElement(FighterList, { fighters: data.fighters }), document.querySelector('#fighters'));
   });
 };
 
 const setup = function setup(csrf) {
-  ReactDOM.render(React.createElement(DomoForm, { csrf }), document.querySelector('#makeDomo'));
+  ReactDOM.render(React.createElement(FighterForm, { csrf }), document.querySelector('#makeFighter'));
 
-  ReactDOM.render(React.createElement(DomoList, { domos: [] }), document.querySelector('#domos'));
+  ReactDOM.render(React.createElement(FighterList, { fighters: [] }), document.querySelector('#fighters'));
 
-  loadDomosFromServer();
+  loadFightersFromServer();
     
-  console.log(DomoList);
+  console.log(FighterList);
 };
 
 const getToken = function getToken() {
@@ -125,11 +101,11 @@ $(document).ready(() => {
 
 var handleError = function handleError(message) {
   $('#errorMessage').text(message);
-  $('#domoMessage').animate({ width: 'toggle' }, 350);
+  $('#fighterMessage').animate({ width: 'toggle' }, 350);
 };
 
 const redirect = function redirect(response) {
-  $('#domoMessage').animate({ width: 'hide' }, 350);
+  $('#fighterMessage').animate({ width: 'hide' }, 350);
   window.location = response.redirect;
 };
 

@@ -2,26 +2,44 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const _ = require('underscore');
 
-let DomoModel = {};
+let FighterModel = {};
 
 const convertID = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
 
-const DomoSchema = new mongoose.Schema({
+const FighterSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
     trim: true,
     set: setName,
   },
+    
+  level: {
+    type: Number,
+    min: 0,
+    required: true,
+  },
 
-  age: {
+  attack: {
     type: Number,
     min: 0,
     required: true,
   },
     
-  powerLevel: {
+  defense: {
+    type: Number,
+    min: 0,
+    required: true,
+  },
+    
+  health: {
+    type: Number,
+    min: 0,
+    required: true,
+  },
+    
+  experience: {
     type: Number,
     min: 0,
     required: true,
@@ -39,21 +57,21 @@ const DomoSchema = new mongoose.Schema({
   },
 });
 
-DomoSchema.statics.toAPI = (doc) => ({
+FighterSchema.statics.toAPI = (doc) => ({
   name: doc.name,
   age: doc.age,
   powerLevel: doc.powerLevel,
 });
 
-DomoSchema.statics.findByOwner = (ownerId, callback) => {
+FighterSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: convertID(ownerId),
   };
 
-  return DomoModel.find(search).select('name age powerLevel').exec(callback);
+  return FighterModel.find(search).select('name age powerLevel').exec(callback);
 };
 
-DomoModel = mongoose.model('Domo', DomoSchema);
+FighterModel = mongoose.model('Fighter', FighterSchema);
 
-module.exports.DomoModel = DomoModel;
-module.exports.DomoSchema = DomoSchema;
+module.exports.FighterModel = FighterModel;
+module.exports.FighterSchema = FighterSchema;

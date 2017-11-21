@@ -1,73 +1,73 @@
 const models = require('../models');
 
-const Domo = models.Domo;
+const Fighter = models.Fighter;
 
 const makerPage = (req, res) => {
-  Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+  Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
       res.status(400).json({ error: 'An error occured' });
     }
 
-    return res.render('app', { csrfToken: req.csrfToken(), domos: docs });
+    return res.render('app', { csrfToken: req.csrfToken(), fighters: docs });
   });
 };
 
-const getDomos = (request, response) => {
+const getFighters = (request, response) => {
   const req = request;
   const res = response;
 
-  return Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+  return Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
 
-    return res.json({ domos: docs });
+    return res.json({ fighters: docs });
   });
 };
 
-const makeDomo = (req, res) => {
+const makeFighter = (req, res) => {
   if (!req.body.name || !req.body.age || !req.body.powerLevel) {
     return res.status(400).json({ error: 'RAWR! All feilds are required' });
   }
-  const domoData = {
+  const fighterData = {
     name: req.body.name,
     age: req.body.age,
     powerLevel: req.body.powerLevel,
     owner: req.session.account._id,
   };
 
-  const newDomo = new Domo.DomoModel(domoData);
+  const newFighter = new Fighter.FighterModel(fighterData);
 
-  const domoPromise = newDomo.save();
+  const fighterPromise = newFighter.save();
 
-  domoPromise.then(() => res.json({ redirect: '/maker' }));
+  fighterPromise.then(() => res.json({ redirect: '/maker' }));
 
-  domoPromise.catch((err) => {
+  fighterPromise.catch((err) => {
     console.log(err);
     if (err.code === 11000) {
-      return res.status(400).json({ error: 'Domo already exists' });
+      return res.status(400).json({ error: 'Fighter already exists' });
     }
 
     return res.status(400).json({ error: 'An error occured' });
   });
 
-  return domoPromise;
+  return fighterPromise;
 };
 
 const scouter = (req, res) => {
-  Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+  Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
       res.status(400).json({ error: 'An error occured' });
     }
 
-    return res.render('scouter', { csrfToken: req.csrfToken(), domos: docs });
+    return res.render('scouter', { csrfToken: req.csrfToken(), fighters: docs });
   });
 };
 
 module.exports.makerPage = makerPage;
-module.exports.getDomos = getDomos;
+module.exports.getFighters = getFighters;
 module.exports.scouter = scouter;
-module.exports.make = makeDomo;
+module.exports.make = makeFighter;
