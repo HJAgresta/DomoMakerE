@@ -1,160 +1,155 @@
+"use strict";
 
-
-const handleFighter = function handleFighter(e) {
+var handleFighter = function handleFighter(e) {
   e.preventDefault();
 
-  $('#fighterMessage').animate({ width: 'hide' }, 350);
+  $("#fighterMessage").animate({ width: 'hide' }, 350);
 
-  if ($('#fighterName').val() == '') {
-    handleError('Name your fighter');
+  if ($("#fighterName").val() == '') {
+    handleError("All fields are required");
     return false;
   }
 
-  sendAjax('POST', $('#fighterForm').attr('action'), $('#fighterForm').serialize(), () => {
+  sendAjax('POST', $("#fighterForm").attr("action"), $("#fighterForm").serialize(), function () {
     loadFightersFromServer();
   });
 
   return false;
 };
 
-const FighterForm = function FighterForm(props) {
+var FighterForm = function FighterForm(props) {
   return React.createElement(
-    'form',
-    { id: 'fighterForm',
+    "form",
+    { id: "fighterForm",
       onSubmit: handleFighter,
-      name: 'fighterForm',
-      action: '/maker',
-      method: 'POST',
-      className: 'fighterForm',
+      name: "fighterForm",
+      action: "/maker",
+      method: "POST",
+      className: "fighterForm"
     },
     React.createElement(
-      'label',
-      { htmlFor: 'name' },
-      'Name: '
+      "label",
+      { htmlFor: "name" },
+      "Name: "
     ),
-    React.createElement('input', { id: 'fighterName', type: 'text', name: 'name', placeholder: 'Fighter Name' }),
-    React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
-    React.createElement('input', { className: 'makeFighterSubmit', type: 'submit', value: 'Make Fighter' })
+    React.createElement("input", { id: "fighterName", type: "text", name: "name", placeholder: "Fighter Name" }),
+    React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+    React.createElement("input", { className: "makeFighterSubmit", type: "submit", value: "Make Fighter" })
   );
 };
 
-const FighterList = function FighterList(props) {
+var FighterList = function FighterList(props) {
   if (props.fighters.length === 0) {
     return React.createElement(
-      'div',
-      { className: 'fighterList' },
+      "div",
+      { className: "fighterList" },
       React.createElement(
-        'h3',
-        { className: 'emptyFighter' },
-        'No Fighters yet'
+        "h3",
+        { className: "emptyFighter" },
+        "No Fighters yet"
       )
     );
   }
 
-  const fighterNodes = props.fighters.map((fighter) => React.createElement(
-      'div',
-      { let: fighter._id, className: 'fighter' },
-      React.createElement('img', { src: '/assets/img/fighterface.jpeg', alt: 'fighter face', className: 'fighterFace' }),
+  var fighterNodes = props.fighters.map(function (fighter) {
+    return React.createElement(
+      "div",
+      { "let": fighter._id, className: "fighter" },
+      React.createElement("img", { src: "/assets/img/fighterface.jpeg", alt: "fighter face", className: "fighterFace" }),
       React.createElement(
-        'h3',
-        { className: 'fighterName' },
-        'Name: ',
+        "h3",
+        { className: "fighterName" },
+        "Name: ",
         fighter.name
       ),
-      
       React.createElement(
-        'h3',
-        { className: 'fighterLevel' },
-        'Level: ',
+        "h3",
+        { className: "fighterName" },
+        "Level: ",
         fighter.level
       ),
-      
       React.createElement(
-        'h3',
-        { className: 'fighterHealth' },
-        'Health: ',
+        "h3",
+        { className: "fighterName" },
+        "Health: ",
         fighter.health
       ),
-      
       React.createElement(
-        'h3',
-        { className: 'fighterAttack' },
-        'Attack: ',
+        "h3",
+        { className: "fighterName" },
+        "Attack: ",
         fighter.attack
       ),
-      
       React.createElement(
-        'h3',
-        { className: 'fighterDefense' },
-        'Defense: ',
+        "h3",
+        { className: "fighterName" },
+        "Defense: ",
         fighter.defense
       ),
-      
       React.createElement(
-        'h3',
-        { className: 'fighterExperience' },
-        'XP: ',
+        "h3",
+        { className: "fighterName" },
+        "XP: ",
         fighter.experience
-      ),
-    ));
+      )
+    );
+  });
 
   return React.createElement(
-    'div',
-    { className: 'fighterList' },
+    "div",
+    { className: "fighterList" },
     fighterNodes
   );
 };
 
 var loadFightersFromServer = function loadFightersFromServer() {
-  sendAjax('GET', '/getFighters', null, (data) => {
-    ReactDOM.render(React.createElement(FighterList, { fighters: data.fighters }), document.querySelector('#fighters'));
+  sendAjax('GET', '/getFighters', null, function (data) {
+    ReactDOM.render(React.createElement(FighterList, { fighters: data.fighters }), document.querySelector("#fighters"));
   });
 };
 
-const setup = function setup(csrf) {
-  ReactDOM.render(React.createElement(FighterForm, { csrf }), document.querySelector('#makeFighter'));
+var setup = function setup(csrf) {
+  ReactDOM.render(React.createElement(FighterForm, { csrf: csrf }), document.querySelector("#makeFighter"));
 
-  ReactDOM.render(React.createElement(FighterList, { fighters: [] }), document.querySelector('#fighters'));
+  ReactDOM.render(React.createElement(FighterList, { fighters: [] }), document.querySelector("#fighters"));
 
   loadFightersFromServer();
-    
-  console.log(FighterList);
 };
 
-const getToken = function getToken() {
-  sendAjax('GET', '/getToken', null, (result) => {
+var getToken = function getToken() {
+  sendAjax('GET', '/getToken', null, function (result) {
     setup(result.csrfToken);
   });
 };
 
-$(document).ready(() => {
+$(document).ready(function () {
   getToken();
 
-  console.log('document ready');
+  console.log("document ready");
 });
-'use strict';
+"use strict";
 
 var handleError = function handleError(message) {
-  $('#errorMessage').text(message);
-  $('#fighterMessage').animate({ width: 'toggle' }, 350);
+  $("#errorMessage").text(message);
+  $("#fighterMessage").animate({ width: 'toggle' }, 350);
 };
 
-const redirect = function redirect(response) {
-  $('#fighterMessage').animate({ width: 'hide' }, 350);
+var redirect = function redirect(response) {
+  $("#fighterMessage").animate({ width: 'hide' }, 350);
   window.location = response.redirect;
 };
 
 var sendAjax = function sendAjax(type, action, data, success) {
   $.ajax({
     cache: false,
-    type,
+    type: type,
     url: action,
-    data,
-    dataType: 'json',
-    success,
+    data: data,
+    dataType: "json",
+    success: success,
     error: function error(xhr, status, _error) {
-      const messageOb = JSON.parse(xhr.responseText);
+      var messageOb = JSON.parse(xhr.responseText);
       handleError(messageObj.error);
-    },
+    }
   });
 };

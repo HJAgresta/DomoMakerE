@@ -4,7 +4,7 @@ const handleFighter = (e) => {
   $("#fighterMessage").animate({width:'hide'}, 350);
   
   if($("#fighterName").val() == '') {
-    handleError("All fields are required");
+    handleError("You need to name two fighters.");
     return false;
   }
   
@@ -15,13 +15,13 @@ const handleFighter = (e) => {
   return false;
 };
 
-const FighterForm = (props) => {
+const BattleForm = (props) => {
   return (
-    <form id="fighterForm"
+    <form id="battleForm"
           onSubmit={handleFighter}
           name="fighterForm"
-          action="/maker"
-          method="POST"
+          action="/battle"
+          method="GET"
           className="fighterForm"
       >
       <label htmlFor="name">Name: </label>

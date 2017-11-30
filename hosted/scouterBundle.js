@@ -15,6 +15,7 @@ var StrongFighterList = function FighterList(props) {
 
     
  const fighterNodes= props.fighters.map(function(fighter){
+     console.log(fighter);
       if(fighter.powerLevel>9000){
         return React.createElement(
       "div",
@@ -64,7 +65,7 @@ var WeakFighterList = function FighterList(props) {
 
     
  const fighterNodes= props.fighters.map(function(fighter){
-      if(fighter.powerLevel<=9000){
+      if(fighter.attack<=9000){
         return React.createElement(
       "div",
       { "let": fighter._id, className: "fighter" },
