@@ -24,10 +24,12 @@ const BattleForm = (props) => {
           method="GET"
           className="fighterForm"
       >
-      <label htmlFor="name">Name: </label>
-      <input id="fighterName" type="text" name="name" placeholder="Fighter Name" />
+      <label htmlFor="name">Name of Fighter 1: </label>
+      <input id="fighterName" type="text" name="name1" placeholder="Fighter Name" />
+      <label htmlFor="name">Name of Fighter 2: </label>
+      <input id="fighterName" type="text" name="name2" placeholder="Fighter Name" />
       <input type="hidden" name="_csrf" value={props.csrf}/>
-      <input className="makeFighterSubmit" type="submit" value="Make Fighter"/>
+      <input className="fightSubmit" type="submit" value="Fight"/>
     </form>
   );
 };

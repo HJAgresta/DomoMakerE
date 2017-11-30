@@ -17,7 +17,7 @@ const FighterSchema = new mongoose.Schema({
     
   level: {
     type: Number,
-    min: 0,
+    min: 1,
     required: true,
   },
     
