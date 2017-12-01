@@ -16,7 +16,7 @@ var StrongFighterList = function FighterList(props) {
     
  const fighterNodes= props.fighters.map(function(fighter){
      console.log(fighter);
-      if(fighter.powerLevel>9000){
+      if(fighter.attack+fighter.defense+fighter.health>9000){
         return React.createElement(
       "div",
       { "let": fighter._id, className: "fighter" },
@@ -29,15 +29,9 @@ var StrongFighterList = function FighterList(props) {
       ),
       React.createElement(
         "h3",
-        { className: "fighterAge" },
-        "Age: ",
-        fighter.age
-      ),
-      React.createElement(
-        "h3",
         { className: "fighterPowerLevel" },
         "Power Level: ",
-        fighter.powerLevel
+        fighter.attack+fighter.defense+fighter.health
       )
     );
   }});
@@ -65,7 +59,7 @@ var WeakFighterList = function FighterList(props) {
 
     
  const fighterNodes= props.fighters.map(function(fighter){
-      if(fighter.attack<=9000){
+      if(fighter.attack+fighter.defense+fighter.health<=9000){
         return React.createElement(
       "div",
       { "let": fighter._id, className: "fighter" },
@@ -78,15 +72,9 @@ var WeakFighterList = function FighterList(props) {
       ),
       React.createElement(
         "h3",
-        { className: "fighterAge" },
-        "Age: ",
-        fighter.age
-      ),
-      React.createElement(
-        "h3",
         { className: "fighterPowerLevel" },
         "Power Level: ",
-        fighter.powerLevel
+        fighter.attack+fighter.defense+fighter.health
       )
     );
   }});

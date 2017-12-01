@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>Fighter Maker</title>
+  <title>Fighter Scouter</title>
   <script crossorigin src="https://unpkg.com/react@15/dist/react.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
   <script crossorigin src="https://unpkg.com/prop-types/prop-types.min.js"></script>
@@ -14,16 +14,16 @@
 <body>
   <nav><a href="/login"><img id="logo" src="/assets/img/face.png" alt="face logo"/></a>
     <div class="navlink"><a href="/logout">Log out</a></div>
-    <div class="navlink"><a href="/scouter">Use The Scouter</a></div>
-    <div class="navlink"><a href="/fighter">Use The fighter</a></div>
+    <div class="navlink"><a href="/maker">Use The Maker</a></div>
+    <div class="navlink"><a href="/scouter">Use The scouter</a></div>
   </nav>
-  <section id="makeFighter">
+  <section id="fighterForm">
   </section>
-  <section id="fighters">
+  <section id="fighterList">
   </section>
   <div id="fighterMessage"><img id="speech" src="/assets/img/speech.png" alt="speech box"/>
     <h3><span id="errorMessage"></span></h3><img id="fighter" src="assets/img/fighter.png" alt="fighter"/>
   </div>
-  <script src="/assets/bundle.js"></script>
+  <script src="/assets/battleBundle.js"></script>
 </body>
 </html>

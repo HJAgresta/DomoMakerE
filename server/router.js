@@ -11,7 +11,8 @@ const router = (app) => {
   app.get('/scouter', mid.requiresLogin, controllers.Fighter.scouter);
   app.get('/maker', mid.requiresLogin, controllers.Fighter.makerPage);
   app.post('/maker', mid.requiresLogin, controllers.Fighter.make);
-  app.get('/fight', mid.requiresLogin, controllers.Fighter.fight);
+  app.get('/fighter', mid.requiresLogin, controllers.Fighter.fighterPage);
+  app.post('/fight', mid.requiresLogin, controllers.Fighter.fight);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 

@@ -8,7 +8,7 @@ const handleFighter = (e) => {
     return false;
   }
   
-  sendAjax('POST', $("#fighterForm").attr("action"), $("#fighterForm").serialize(), function() {
+  sendAjax('POST', $("#BattleForm").attr("action"), $("#BattleForm").serialize(), function() {
     loadFightersFromServer();
   });
   
@@ -17,12 +17,12 @@ const handleFighter = (e) => {
 
 const BattleForm = (props) => {
   return (
-    <form id="battleForm"
+    <form id="BattleForm"
           onSubmit={handleFighter}
-          name="fighterForm"
-          action="/battle"
+          name="BattleForm"
+          action="/fight"
           method="GET"
-          className="fighterForm"
+          className="BattleForm"
       >
       <label htmlFor="name">Name of Fighter 1: </label>
       <input id="fighterName" type="text" name="name1" placeholder="Fighter Name" />
@@ -68,20 +68,20 @@ const loadFightersFromServer = () => {
   sendAjax('GET', '/getFighters', null, (data) => {
     ReactDOM.render(
       <FighterList fighters={data.fighters} />,
-      document.querySelector("#fighters")
+      document.querySelector("#fighterList")
     );
   });
 };
 
 const setup = function(csrf) {
   ReactDOM.render(
-    <FighterForm csrf={csrf} />,
-    document.querySelector("#makeFighter")
+    <BattleForm csrf={csrf} />,
+    document.querySelector("#fighterForm")
   );
   
   ReactDOM.render(
     <FighterList fighters={[]} />,
-    document.querySelector("#fighters")
+    document.querySelector("#fighterList")
   );
   
   loadFightersFromServer();

@@ -74,6 +74,14 @@ FighterSchema.statics.findByOwner = (ownerId, callback) => {
   return FighterModel.find(search).select('name level health attack defense experience').exec(callback);
 };
 
+FighterSchema.statics.findByName = (ownerId, callback) => {
+  const search = {
+    name: (ownerId),
+  };
+
+  return FighterModel.findOne(search).select('name level health attack defense experience').exec(callback);
+};
+
 FighterModel = mongoose.model('Fighter', FighterSchema);
 
 module.exports.FighterModel = FighterModel;
