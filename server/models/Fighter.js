@@ -14,13 +14,13 @@ const FighterSchema = new mongoose.Schema({
     trim: true,
     set: setName,
   },
-    
+
   level: {
     type: Number,
     min: 1,
     required: true,
   },
-    
+
   health: {
     type: Number,
     min: 0,
@@ -32,19 +32,19 @@ const FighterSchema = new mongoose.Schema({
     min: 0,
     required: true,
   },
-    
+
   defense: {
     type: Number,
     min: 0,
     required: true,
   },
-    
+
   experience: {
     type: Number,
     min: 0,
     required: true,
   },
-    
+
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,
@@ -71,15 +71,16 @@ FighterSchema.statics.findByOwner = (ownerId, callback) => {
     owner: convertID(ownerId),
   };
 
-  return FighterModel.find(search).select('name level health attack defense experience').exec(callback);
+  const tempiboy = 'name level health attack defense experience';
+  return FighterModel.find(search).select(tempiboy).exec(callback);
 };
 
 FighterSchema.statics.findByName = (ownerId, callback) => {
   const search = {
     name: (ownerId),
   };
-
-  return FighterModel.findOne(search).select('name level health attack defense experience').exec(callback);
+  const tempiboy = 'name level health attack defense experience';
+  return FighterModel.findOne(search).select(tempiboy).exec(callback);
 };
 
 FighterModel = mongoose.model('Fighter', FighterSchema);

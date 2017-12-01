@@ -3,7 +3,6 @@ const models = require('../models');
 const Fighter = models.Fighter;
 
 
-
 const makerPage = (req, res) => {
   Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
@@ -29,97 +28,77 @@ const getFighters = (request, response) => {
   });
 };
 
-
+const levelUp = (fighter) => {
+  fighter.level = fighter.level + 1;
+  fighter.health = fighter.health + Math.floor(Math.random() * (10));
+  fighter.attack = fighter.attack + Math.floor(Math.random() * (5));
+  fighter.defense = fighter.defense + Math.floor(Math.random() * (5));
+};
 
 const fight = (req, res) => {
-console.dir(req.body);
-  if (!req.body.name1 ||!req.body.name2 ) {
-
+  console.dir(req.body);
+  if (!req.body.name1 || !req.body.name2) {
     return res.json({ error: 'Two fighters are required to fight' });
-
   }
 
   Fighter.FighterModel.findByName(req.body.name1, (err, doc1) => {
-
     if (err) {
-
       return res.json({ err });
-
-    }
-  
-
-  Fighter.FighterModel.findByName(req.body.name2, (err, doc2) => {
-
-    if (err) {
-
-      return res.json({ err });
-
-    }
-  
-
-    if (!doc1) {
-
-      return res.json({ error: 'Fighter 1 not found' });
-
     }
 
 
-    if (!doc2) {
+    Fighter.FighterModel.findByName(req.body.name2, (err, doc2) => {
+      if (err) {
+        return res.json({ err });
+      }
 
-      return res.json({ error: 'Fighter 2 not found' });
 
-    }
+      if (!doc1) {
+        return res.json({ error: 'Fighter 1 not found' });
+      }
 
-    let fighter1Damage = doc1.attack-doc2.defense;
-    let fighter2Damage = doc2.attack-doc1.defense;
-      if(fighter2Damage <0)
-          {
-              fighter2Damage = 0.01;
-          }
-      if(fighter1Damage < 0)
-          {
-              fighter1Damage = 0.01;
-          }
-    console.log(fighter1Damage);
-    console.log(fighter2Damage);
-   let newfighter ; if(doc2.health/fighter1Damage>doc1.health/fighter2Damage)
-        {
-            newfighter = doc1;
-            newfighter.experience=newfighter.experience+doc2.level;
-        }
-      else if(doc2.health/fighter1Damage<doc1.health/fighter2Damage)
-      {
+
+      if (!doc2) {
+        return res.json({ error: 'Fighter 2 not found' });
+      }
+
+      let fighter1Damage = doc1.attack - doc2.defense;
+      let fighter2Damage = doc2.attack - doc1.defense;
+      if (fighter2Damage < 0) {
+        fighter2Damage = 0.01;
+      }
+      if (fighter1Damage < 0) {
+        fighter1Damage = 0.01;
+      }
+      console.log(fighter1Damage);
+      console.log(fighter2Damage);
+      let newfighter; if (doc2.health / fighter1Damage > doc1.health / fighter2Damage) {
+        newfighter = doc1;
+        newfighter.experience = newfighter.experience + doc2.level;
+      } else if (doc2.health / fighter1Damage <
+              doc1.health / fighter2Damage) {
         newfighter = doc2;
-          newfighter.experience=newfighter.experience+doc1.level;
+        newfighter.experience = newfighter.experience + doc1.level;
+      } else {
+        return res.json({ error: 'It was a tie' });
       }
-      else{
-          return res.json({ error: 'It was a tie' });
+
+      if (newfighter.experience / 1.5 > newfighter.level) {
+        levelUp(newfighter);
       }
 
-      if(newfighter.experience/1.5 > newfighter.level)
-          {
-              levelUp(newfighter);
-          }
 
+      const savePromise = newfighter.save();
 
+      savePromise.then(() => res.json({ name: newfighter.name, age: newfighter.age, breed: newfighter.breed }));
 
-    const savePromise = newfighter.save();
+      savePromise.catch(err1 => res.json({ err1 }));
 
-    savePromise.then(() => res.json({ name: newfighter.name, age: newfighter.age, breed: newfighter.breed }));
+      return res.json({ name: newfighter.name, level: newfighter.level, health: newfighter.health, attack: newfighter.attack, defense: newfighter.defense, experience: newfighter.experience });
+    });
+  });
+};
 
-    savePromise.catch(err1 => res.json({ err1 }));
-
-    return res.json({ name: newfighter.name, level: newfighter.level, health: newfighter.health, attack: newfighter.attack,defense: newfighter.defense,experience: newfighter.experience });
-
-  })})}
-
-const levelUp = (fighter) => {
-      
-      fighter.level = fighter.level + 1;
-      fighter.health = fighter.health + Math.floor(Math.random() * (10));
-      fighter.attack = fighter.attack + Math.floor(Math.random() * (5));
-      fighter.defense = fighter.defense + Math.floor(Math.random() * (5));
-  };
 
 const makeFighter = (req, res) => {
   if (!req.body.name) {
@@ -128,9 +107,9 @@ const makeFighter = (req, res) => {
   const fighterData = {
     name: req.body.name,
     level: 1,
-    health: Math.floor(Math.random() * (10))+15,
-    attack: Math.floor(Math.random() * (5))+5,
-    defense: Math.floor(Math.random() * (5))+5,
+    health: Math.floor(Math.random() * (10)) + 15,
+    attack: Math.floor(Math.random() * (5)) + 5,
+    defense: Math.floor(Math.random() * (5)) + 5,
     experience: 0,
     owner: req.session.account._id,
   };
