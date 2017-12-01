@@ -104,6 +104,10 @@ var createSignupWindow = function createSignupWindow(csrf) {
   ReactDOM.render(React.createElement(SignupWindow, { csrf: csrf }), document.querySelector("#content"));
 };
 
+var ShowAd = function ShowAd() {
+  return React.createElement("img", { src: "assets/img/ad.png", alt: "ad", className: "ad" });
+};
+
 var setup = function setup(csrf) {
   var loginButton = document.querySelector("#loginButton");
   var signupButton = document.querySelector("#signupButton");
@@ -119,6 +123,8 @@ var setup = function setup(csrf) {
     createLoginWindow(csrf);
     return false;
   });
+
+  ReactDOM.render(React.createElement(ShowAd, null), document.querySelector("#add"));
 
   createLoginWindow(csrf); //default
 };

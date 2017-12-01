@@ -74,6 +74,9 @@ const SignupWindow = (props) => {
   );
 };
 
+
+
+
 const createLoginWindow = (csrf) => {
   ReactDOM.render(
     <LoginWindow csrf={csrf} />,
@@ -87,6 +90,15 @@ const createSignupWindow = (csrf) => {
     document.querySelector("#content")
   );
 };
+
+const ShowAd = () =>
+{
+    return(
+    <img src="assets/img/ad.png" alt="ad" className="ad"/>
+    );
+}
+
+
 
 const setup = (csrf) => {
   const loginButton = document.querySelector("#loginButton");
@@ -104,6 +116,11 @@ const setup = (csrf) => {
     return false;
   });
   
+    ReactDOM.render(
+    <ShowAd/>,
+        document.querySelector("#add")
+    );
+    
   createLoginWindow(csrf); //default
 };
 
