@@ -48,9 +48,9 @@ const fight = (req, res) => {
     }
 
 
-    Fighter.FighterModel.findByName(req.body.name2, (err, doc2) => {
-      if (err) {
-        return res.json({ err });
+    Fighter.FighterModel.findByName(req.body.name2, (err2, doc2) => {
+      if (err2) {
+        return res.json({ err2 });
       }
 
 
@@ -93,8 +93,6 @@ const fight = (req, res) => {
 
       const savePromise = newfighter.save();
 
-      savePromise.then(() => res.json({ name: newfighter.name, age: newfighter.age, breed: newfighter.breed }));
-
       savePromise.catch(err1 => res.json({ err1 }));
 
       return res.json({
@@ -104,9 +102,10 @@ const fight = (req, res) => {
         attack: newfighter.attack,
         defense: newfighter.defense,
         experience: newfighter.experience });
-      return res.json({ error: 'There was a victor' });
     });
+    return null;
   });
+  return null;
 };
 
 
