@@ -29,14 +29,15 @@ const getFighters = (request, response) => {
 };
 
 const levelUp = (fighter) => {
-  fighter.level = fighter.level + 1;
-  fighter.health = fighter.health + Math.floor(Math.random() * (10));
-  fighter.attack = fighter.attack + Math.floor(Math.random() * (5));
-  fighter.defense = fighter.defense + Math.floor(Math.random() * (5));
+  const newfighter = fighter;
+  newfighter.level = fighter.level + 1;
+  newfighter.health = fighter.health + Math.floor(Math.random() * (10));
+  newfighter.attack = fighter.attack + Math.floor(Math.random() * (5));
+  newfighter.defense = fighter.defense + Math.floor(Math.random() * (5));
+  return newfighter;
 };
 
 const fight = (req, res) => {
-  console.dir(req.body);
   if (!req.body.name1 || !req.body.name2) {
     return res.json({ error: 'Two fighters are required to fight' });
   }
@@ -72,7 +73,9 @@ const fight = (req, res) => {
       }
       console.log(fighter1Damage);
       console.log(fighter2Damage);
-      let newfighter; if (doc2.health / fighter1Damage > doc1.health / fighter2Damage) {
+      let newfighter;
+      if (doc2.health / fighter1Damage >
+          doc1.health / fighter2Damage) {
         newfighter = doc1;
         newfighter.experience = newfighter.experience + doc2.level;
       } else if (doc2.health / fighter1Damage <
@@ -94,7 +97,14 @@ const fight = (req, res) => {
 
       savePromise.catch(err1 => res.json({ err1 }));
 
-      return res.json({ name: newfighter.name, level: newfighter.level, health: newfighter.health, attack: newfighter.attack, defense: newfighter.defense, experience: newfighter.experience });
+      return res.json({
+        name: newfighter.name,
+        level: newfighter.level,
+        health: newfighter.health,
+        attack: newfighter.attack,
+        defense: newfighter.defense,
+        experience: newfighter.experience });
+      return res.json({ error: 'There was a victor' });
     });
   });
 };
