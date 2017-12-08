@@ -6,10 +6,17 @@ const loginPage = (req, res) => {
   res.render('login', { csrfToken: req.csrfToken() });
 };
 
+
+const passwordPage = (req, res) => {
+  res.render('password', { csrfToken: req.csrfToken() });
+};
+
+
 const logout = (req, res) => {
   req.session.destroy();
   res.redirect('/');
 };
+
 
 const login = (request, response) => {
   const req = request;
@@ -78,6 +85,57 @@ const signup = (request, response) => {
 };
 
 
+const changePassword = (request, response) => {
+  const req = request;
+  const res = response;
+
+  req.body.username = `${req.body.username}`;
+  req.body.pass = `${req.body.pass}`;
+  req.body.pass2 = `${req.body.pass2}`;
+
+  if (!req.body.pass || !req.body.pass2) {
+    return res.status(400).json({ error: 'You missed a feild!' });
+  }
+
+  if (req.body.pass !== req.body.pass2) {
+    return res.status(400).json({ error: 'Your passwords dont match' });
+  }
+
+  return Account.AccountModel.findByUsername(req.body.user, (err, doc) => {
+    if (err) {
+      return res.json({ err });
+    }
+
+    if (!doc) {
+      return res.json({ error: 'User is invalid' });
+    }
+
+    return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {
+      const accountData = {
+        username: doc.username,
+        salt,
+        password: hash,
+      };
+
+      const newAccount = doc;
+
+      newAccount.password = accountData.password;
+      newAccount.salt = accountData.salt;
+
+      const savePromise = newAccount.save();
+
+      savePromise.then(() => res.json({ redirect: '/maker' }));
+
+      savePromise.catch((err2) => {
+        console.log(err2);
+
+        return res.status(400).json({ error: 'An error occured' });
+      });
+    });
+  });
+};
+
+
 const getToken = (request, response) => {
   const req = request;
   const res = response;
@@ -94,3 +152,6 @@ module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
 module.exports.getToken = getToken;
+
+module.exports.passwordPage = passwordPage;
+module.exports.changePassword = changePassword;

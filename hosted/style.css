@@ -122,6 +122,10 @@ nav:nth-child(1) {
     font-size: 1.2em;
 }
 
+#passwordForm
+{
+    text-align: center;
+}
 .formSubmit {
     transition: background-color 0.4s ease;
     display: block;
@@ -147,7 +151,7 @@ nav:nth-child(1) {
     background-color: var(--darkerBase);
 }
 
-#user, #pass, #pass2 {
+#user, #pass, #pass2, #newpass, #curUser, #newPass2 {
     text-align: center;
     font-size: 1.1em;
     width: 180px;
