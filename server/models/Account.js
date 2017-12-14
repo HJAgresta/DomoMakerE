@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const mongoose = require('mongoose');
+const ObjectID = require('mongodb').ObjectID;
 
 mongoose.Promise = global.Promise;
 
@@ -62,6 +63,16 @@ AccountSchema.statics.generateHash = (password, callback) => {
     callback(salt, hash.toString('hex'))
   );
 };
+
+AccountSchema.statics.findByID = (id, callback) => {
+  const search = {
+    _id: new ObjectID(id),
+  };
+
+
+  return AccountModel.findOne(search, callback);
+};
+
 
 AccountSchema.statics.authenticate = (username, password, callback) =>
 AccountModel.findByUsername(username, (err, doc) => {

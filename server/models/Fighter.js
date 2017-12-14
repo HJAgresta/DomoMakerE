@@ -75,9 +75,10 @@ FighterSchema.statics.findByOwner = (ownerId, callback) => {
   return FighterModel.find(search).select(tempiboy).exec(callback);
 };
 
-FighterSchema.statics.findByName = (ownerId, callback) => {
+FighterSchema.statics.findByName = (nameId, ownerId, callback) => {
   const search = {
-    name: (ownerId),
+    owner: ownerId,
+    name: nameId,
   };
   const tempiboy = 'name level health attack defense experience';
   return FighterModel.findOne(search).select(tempiboy).exec(callback);

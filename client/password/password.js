@@ -3,7 +3,7 @@ const passwordChange = (e) => {
   
   $("#fighterMessage").animate({width:'hide'}, 350);
   
-  if($("#user").val() == '' || $("#newpass1").val() == '' || $("#newpass2").val() == '') {
+  if($("#newpass1").val() == '' || $("#newpass2").val() == '') {
     handleError("You missed one of the feilds");
     return false;
   }
@@ -28,9 +28,6 @@ const PasswordForm = (props) => {
           className="passwordForm"
       >
       <br /><br /><br /><br />
-      <label htmlFor="user">Username: </label><br />
-      <input id="curUser" type="text" name="user" placeholder="current username"/><br />
-      <br />
       <label htmlFor="pass">Password: </label><br />
       <input id="newpass" type="password" name="pass" placeholder="new password"/><br />
       <br />

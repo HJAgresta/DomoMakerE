@@ -42,13 +42,13 @@ const fight = (req, res) => {
     return res.json({ error: 'Two fighters are required to fight' });
   }
 
-  Fighter.FighterModel.findByName(req.body.name1, (err, doc1) => {
+  Fighter.FighterModel.findByName(req.body.name1, req.session.account._id, (err, doc1) => {
     if (err) {
       return res.json({ err });
     }
 
 
-    Fighter.FighterModel.findByName(req.body.name2, (err2, doc2) => {
+    Fighter.FighterModel.findByName(req.body.name2, req.session.account._id, (err2, doc2) => {
       if (err2) {
         return res.json({ err2 });
       }
@@ -63,22 +63,36 @@ const fight = (req, res) => {
         return res.json({ error: 'Fighter 2 not found' });
       }
 
+      console.log("Owner: "+req.session.account._id);
+        
+      console.log("Doc1 level: "+doc1.level);
+      console.log("Doc2 level: "+doc2.level);
+        
+        
+      console.log("Doc1 attack: "+doc1.attack);
+      console.log("Doc2 attack: "+doc2.attack);
+        
+      console.log("Doc1 defense: "+doc1.defense);
+      console.log("Doc2 defense: "+doc2.defense);
+        
+      console.log("");
+        
+        
       let fighter1Damage = doc1.attack - doc2.defense;
       let fighter2Damage = doc2.attack - doc1.defense;
+        
       if (fighter2Damage < 0) {
         fighter2Damage = 0.01;
       }
       if (fighter1Damage < 0) {
         fighter1Damage = 0.01;
       }
-      console.log(fighter1Damage);
-      console.log(fighter2Damage);
       let newfighter;
-      if (doc2.health / fighter1Damage >
+      if (doc2.health / fighter1Damage <
           doc1.health / fighter2Damage) {
         newfighter = doc1;
         newfighter.experience = newfighter.experience + doc2.level;
-      } else if (doc2.health / fighter1Damage <
+      } else if (doc2.health / fighter1Damage >
               doc1.health / fighter2Damage) {
         newfighter = doc2;
         newfighter.experience = newfighter.experience + doc1.level;
@@ -95,6 +109,15 @@ const fight = (req, res) => {
 
       savePromise.catch(err1 => res.json({ err1 }));
 
+      console.log("Doc1 level: "+doc1.level);
+      console.log("Doc2 level: "+doc2.level);
+        
+      console.log("Doc1 attack: "+doc1.attack);
+      console.log("Doc2 attack: "+doc2.attack);
+        
+      console.log("Doc1 defense: "+doc1.defense);
+      console.log("Doc2 defense: "+doc2.defense);
+        
       return res.json({
         name: newfighter.name,
         level: newfighter.level,
@@ -103,8 +126,14 @@ const fight = (req, res) => {
         defense: newfighter.defense,
         experience: newfighter.experience });
     });
+      
     return null;
   });
+    
+        
+    
+        console.log("--------------------------");
+    
   return null;
 };
 
