@@ -3,6 +3,28 @@ const models = require('../models');
 const Fighter = models.Fighter;
 
 
+const scouter = (req, res) => {
+  Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ error: 'An error occured' });
+    }
+
+    return res.render('scouter', { csrfToken: req.csrfToken(), fighters: docs });
+  });
+};
+
+const fighterPage = (req, res) => {
+  Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ error: 'An error occured' });
+    }
+
+    return res.render('fighter', { csrfToken: req.csrfToken(), fighters: docs });
+  });
+};
+
 const makerPage = (req, res) => {
   Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
@@ -144,28 +166,6 @@ const makeFighter = (req, res) => {
   return fighterPromise;
 };
 
-
-const scouter = (req, res) => {
-  Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
-    if (err) {
-      console.log(err);
-      res.status(400).json({ error: 'An error occured' });
-    }
-
-    return res.render('scouter', { csrfToken: req.csrfToken(), fighters: docs });
-  });
-};
-
-const fighterPage = (req, res) => {
-  Fighter.FighterModel.findByOwner(req.session.account._id, (err, docs) => {
-    if (err) {
-      console.log(err);
-      res.status(400).json({ error: 'An error occured' });
-    }
-
-    return res.render('fighter', { csrfToken: req.csrfToken(), fighters: docs });
-  });
-};
 
 module.exports.makerPage = makerPage;
 module.exports.fighterPage = fighterPage;

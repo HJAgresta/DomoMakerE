@@ -80,8 +80,8 @@ FighterSchema.statics.findByName = (nameId, ownerId, callback) => {
     owner: ownerId,
     name: nameId,
   };
-  const tempiboy = 'name level health attack defense experience';
-  return FighterModel.findOne(search).select(tempiboy).exec(callback);
+  const tempiboi = 'name level health attack defense experience';
+  return FighterModel.findOne(search).select(tempiboi).exec(callback);
 };
 
 FighterModel = mongoose.model('Fighter', FighterSchema);
