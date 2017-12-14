@@ -21,7 +21,6 @@ const BattleForm = (props) => {
           onSubmit={handleFighter}
           name="BattleForm"
           action="/fight"
-          method="GET"
           className="BattleForm"
       >
       <label htmlFor="name">Name of Fighter 1: </label>

@@ -63,24 +63,10 @@ const fight = (req, res) => {
         return res.json({ error: 'Fighter 2 not found' });
       }
 
-      console.log("Owner: "+req.session.account._id);
-        
-      console.log("Doc1 level: "+doc1.level);
-      console.log("Doc2 level: "+doc2.level);
-        
-        
-      console.log("Doc1 attack: "+doc1.attack);
-      console.log("Doc2 attack: "+doc2.attack);
-        
-      console.log("Doc1 defense: "+doc1.defense);
-      console.log("Doc2 defense: "+doc2.defense);
-        
-      console.log("");
-        
-        
+
       let fighter1Damage = doc1.attack - doc2.defense;
       let fighter2Damage = doc2.attack - doc1.defense;
-        
+
       if (fighter2Damage < 0) {
         fighter2Damage = 0.01;
       }
@@ -109,15 +95,7 @@ const fight = (req, res) => {
 
       savePromise.catch(err1 => res.json({ err1 }));
 
-      console.log("Doc1 level: "+doc1.level);
-      console.log("Doc2 level: "+doc2.level);
-        
-      console.log("Doc1 attack: "+doc1.attack);
-      console.log("Doc2 attack: "+doc2.attack);
-        
-      console.log("Doc1 defense: "+doc1.defense);
-      console.log("Doc2 defense: "+doc2.defense);
-        
+
       return res.json({
         name: newfighter.name,
         level: newfighter.level,
@@ -126,14 +104,10 @@ const fight = (req, res) => {
         defense: newfighter.defense,
         experience: newfighter.experience });
     });
-      
+
     return null;
   });
-    
-        
-    
-        console.log("--------------------------");
-    
+
   return null;
 };
 

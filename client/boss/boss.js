@@ -4,7 +4,7 @@ const handleFighter = (e) => {
   $("#fighterMessage").animate({width:'hide'}, 350);
   
   if($("#fighterName").val() == '') {
-    handleError("You need to name two fighters.");
+    handleError("You need to name a fighter.");
     return false;
   }
   
@@ -20,14 +20,13 @@ const BattleForm = (props) => {
     <form id="BattleForm"
           onSubmit={handleFighter}
           name="BattleForm"
-          action="/fight"
-          method="GET"
+          action="/bossFight"
           className="BattleForm"
       >
-      <label htmlFor="name">Name of Fighter 1: </label>
+      <label htmlFor="name">Who will fight the Boss: </label>
       <input id="fighterName" type="text" name="name" placeholder="Fighter Name" />
       <input type="hidden" name="_csrf" value={props.csrf}/>
-      <input className="fightSubmit" type="submit" value="Fight"/>
+      <input className="fightSubmit" type="submit" value="Fight the Boss"/>
     </form>
   );
 };
@@ -74,7 +73,7 @@ const loadFightersFromServer = () => {
 const setup = function(csrf) {
   ReactDOM.render(
     <BattleForm csrf={csrf} />,
-    document.querySelector("#fighterForm")
+    document.querySelector("#bossBattle")
   );
   
   ReactDOM.render(
