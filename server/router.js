@@ -15,6 +15,8 @@ const router = (app) => {
   app.post('/fight', mid.requiresLogin, controllers.Fighter.fight);
   app.get('/password', mid.requiresLogin, controllers.Account.passwordPage);
   app.post('/password', mid.requiresLogin, controllers.Account.changePassword);
+  app.get('/boss', mid.requiresLogin, controllers.Boss.bossPage);
+  app.post('/bossFight', mid.requiresLogin, controllers.Boss.bossFight);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 
