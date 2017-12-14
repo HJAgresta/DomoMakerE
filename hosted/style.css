@@ -23,7 +23,6 @@ html, body {
     width: 40;
     padding-top: 5px;
     float:left;
-    border-radius: 8px;
 }
 
 nav {
@@ -49,7 +48,6 @@ nav:nth-child(1) {
     color: var(--textColor);
     text-decoration: none;
     padding: 5px;
-    border-radius: 4px;
     background-color: var(--bgColor);
     transition: background-color 0.4s ease;
 }
@@ -66,8 +64,6 @@ nav:nth-child(1) {
     margin-top:0px;
     padding-top:10px;
     background-color: var(--bgColor);
-    border-bottom-right-radius: 4px;
-    border-top-right-radius: 4px;
 }
 
 .fighterForm label {
@@ -88,7 +84,6 @@ nav:nth-child(1) {
     display: inline;
     width: 90px;
     background-color: var(--bgColor);
-    border-radius: 2px;
     color: var(--textColor);
     text-decoration: none;
 }
@@ -135,7 +130,6 @@ nav:nth-child(1) {
     font-size: 1.2em;
     width: 100px;
     background-color: var(--bgColor);
-    border-radius: 2px;
     border-color: var(--lighterBase);
     padding: 3px 0px;
     color: var(--textColor);
@@ -155,7 +149,6 @@ nav:nth-child(1) {
     text-align: center;
     font-size: 1.1em;
     width: 180px;
-    border-radius: 6px;
 }
 
 #user:focus, #pass:focus, #pass2:focus {
@@ -209,7 +202,6 @@ nav:nth-child(1) {
     width: 40%;
     min-width: 400px;
     border: 2px solid var(--bgColor);
-    border-radius: 4px;
     margin: 0 auto;
     margin-top: 100px;
 }
@@ -220,7 +212,6 @@ nav:nth-child(1) {
     margin-top: 2px;
     margin-bottom: 2px;
     border: 2px solid var(--bgColor);
-    border-radius: 4px;
     background-color: var(--bgColor);
     padding: 10px;
     min-height:60px;
@@ -239,7 +230,6 @@ img.fighterFace {
     margin-right: 10px;
     height: 50px;
     width: 50px;
-    border-radius: 4px;
     margin-top:10px;
     float:left;
 }
